@@ -2,6 +2,18 @@
 # -*- coding: utf-8 -*-
 print("hello")
 
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument('--date', help='Block date')
+parser.add_argument('-e', '--email', dest='email_cost', help='Block email')
+parser.add_argument('-s','--site',dest='site' help='Block site')
+parser.add_argument('-f', '--file', dest='customer_list', help='customer delete list file')
+
+args = parser.parse_args()
+print("Email кастомера - " + args.email_cost)
+print("Файл кастомера с невалидным иящиками - " + args.customer_list)
+
+
 
 # собрать массив из файла кастомера
 def create_client_list():
