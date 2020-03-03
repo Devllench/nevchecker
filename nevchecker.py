@@ -7,19 +7,19 @@ print("hello")
 parser = argparse.ArgumentParser()
 
 # обязательные аргумены
-parser.add_argument('--client-list', dest='customer_list', help='customer delete list file')
-parser.add_argument('--beget-list', dest='beget_list', help='customer delete list file')
+parser.add_argument('-cl', '--client-list', type=str, dest='customer_list', help='customer delete list file')
+parser.add_argument('-bl', '--beget-list', type=str, dest='beget_list', help='customer delete list file')
 
 
 
 # не обязательные аргументы
-parser.add_argument('--date', dest='date_block', help='Block date')
-parser.add_argument('-e', '--email', dest='email_block', help='Block email')
-parser.add_argument('-s', '--site', dest='site', help='Block site')
+#parser.add_argument('--date', dest='date_block', help='Block date')
+#parser.add_argument('-e', '--email', type=str, dest='email_block', help='Block email')
+#parser.add_argument('-s', '--site', type=str, dest='site', help='Block site')
 
 args = parser.parse_args()
 if args is not None:
-    print("Email кастомера - " + str(args.email_block))
+#    print("Email кастомера - " + str(args.email_block))
     print("Файл кастомера с невалидным иящиками - " + str(args.customer_list))
 else:
     pass
@@ -57,10 +57,10 @@ def comparison_lists(client_list, beget_list):
     for j in dont_delete_email:
         check2 = check2 + 1
 
-    print("удалены"+str(delete_email))
-    print("Всего удалено" + str(check1))
-    print("не удалены"+str(dont_delete_email))
-    print("Всего не удалено удалено" + str(check2))
+    print("удалены "+str(delete_email))
+    print("Всего удалено - " + str(check1))
+    print("не удалены "+str(dont_delete_email))
+    print("Всего не удалено удалено - " + str(check2))
     input("Press Enter to Continue. . .: ")
 
 
@@ -68,6 +68,6 @@ def comparison_lists(client_list, beget_list):
 # main
 
 blist1 = create_beget_list_from_file()
-clist2 = create_client_list(args.customer_list)
+clist2 = create_client_list(str(args.customer_list))
 
 comparison_lists(clist2, blist1)
