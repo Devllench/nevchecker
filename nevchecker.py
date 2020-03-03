@@ -7,8 +7,8 @@ print("hello")
 parser = argparse.ArgumentParser()
 
 # обязательные аргумены
-parser.add_argument('-cl', '--client-list', type=str, dest='customer_list', help='customer delete list file')
-parser.add_argument('-bl', '--beget-list', type=str, dest='beget_list', help='customer delete list file')
+parser.add_argument('-cl', '--client-list', type=str, dest='customer_file', help='customer delete list file')
+parser.add_argument('-bl', '--beget-list', type=str, dest='beget_file', help='customer delete list file')
 
 
 
@@ -20,7 +20,8 @@ parser.add_argument('-bl', '--beget-list', type=str, dest='beget_list', help='cu
 args = parser.parse_args()
 if args is not None:
 #    print("Email кастомера - " + str(args.email_block))
-    print("Файл кастомера с невалидным иящиками - " + str(args.customer_list))
+    print("Файл кастомера с невалидным иящиками - " + str(args.customer_file))
+    print("Файл кастомера с невалидным иящиками - " + str(args.beget_file))
 else:
     pass
 
@@ -33,8 +34,8 @@ def create_client_list(client_file):
 
 
 # собрать массив из нашешл (из логов)
-def create_beget_list_from_file():
-    with open("list_b1.txt") as file:
+def create_beget_list_from_file(beget_file):
+    with open(beget_file) as file:
         beget_list = [row.strip() for row in file]
     return beget_list
 
@@ -67,7 +68,7 @@ def comparison_lists(client_list, beget_list):
 # вывести результат( сколько ящиков из списка кастомера совпало с нашим списком)
 # main
 
-blist1 = create_beget_list_from_file()
-clist2 = create_client_list(str(args.customer_list))
+blist1 = create_beget_list_from_file(str(args.beget_file))
+clist2 = create_client_list(str(args.customer_file))
 
 comparison_lists(clist2, blist1)
