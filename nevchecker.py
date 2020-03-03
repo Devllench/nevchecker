@@ -1,20 +1,21 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import argparse
 
 print("hello")
-
-import argparse
-import time
 
 parser = argparse.ArgumentParser()
 
 # обязательные аргумены
+parser.add_argument('--client-list', dest='customer_list', help='customer delete list file')
+parser.add_argument('--beget-list', dest='beget_list', help='customer delete list file')
+
+
+
+# не обязательные аргументы
 parser.add_argument('--date', dest='date_block', help='Block date')
 parser.add_argument('-e', '--email', dest='email_block', help='Block email')
 parser.add_argument('-s', '--site', dest='site', help='Block site')
-parser.add_argument('-cl', '--client-list', dest='customer_list', help='customer delete list file')
-parser.add_argument('-bl', '--beget-list', dest='customer_list', help='customer delete list file')
-# не обязательные аргументы
 
 args = parser.parse_args()
 if args is not None:
@@ -25,15 +26,15 @@ else:
 
 
 # собрать массив из файла кастомера
-def create_client_list():
-    with open("list_b1.txt") as file:
+def create_client_list(client_file):
+    with open(client_file) as file:
         client_list = [row.strip() for row in file]
     return client_list
 
 
 # собрать массив из нашешл (из логов)
 def create_beget_list_from_file():
-    with open("list_c1.txt") as file:
+    with open("list_b1.txt") as file:
         beget_list = [row.strip() for row in file]
     return beget_list
 
@@ -44,26 +45,29 @@ def create_beget_list_from_file():
 def comparison_lists(client_list, beget_list):
     delete_email = []
     dont_delete_email = []
-    for email_in_client_list in client_list:
-        print("Удаленные" + str(delete_email))
-        print("Не удаленные" + str(dont_delete_email))
-        for email_in_beget_list in beget_list:
-            # сравниваем емаил кастомера и нашим емаилом
-            if email_in_client_list == email_in_beget_list:
-                delete_email.append(email_in_client_list)
-            elif email_in_beget_list not in dont_delete_email:
-                dont_delete_email.append(email_in_beget_list)
-            else:
-                pass
+    for email_beget in beget_list:
+        if email_beget in client_list:
+            delete_email.append(email_beget)
+        elif email_beget not in client_list:
+            dont_delete_email.append(email_beget)
+    check1 = 0
+    check2 = 0
+    for i in delete_email:
+        check1 = check1 + 1
+    for j in dont_delete_email:
+        check2 = check2 + 1
 
-
-        input("Press Enter to Continue. . .: ")
+    print("удалены"+str(delete_email))
+    print("Всего удалено" + str(check1))
+    print("не удалены"+str(dont_delete_email))
+    print("Всего не удалено удалено" + str(check2))
+    input("Press Enter to Continue. . .: ")
 
 
 # вывести результат( сколько ящиков из списка кастомера совпало с нашим списком)
 # main
 
 blist1 = create_beget_list_from_file()
-clist2 = create_client_list()
+clist2 = create_client_list(args.customer_list)
 
 comparison_lists(clist2, blist1)
