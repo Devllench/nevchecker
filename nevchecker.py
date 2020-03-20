@@ -4,8 +4,6 @@ import argparse
 import csv
 import os
 
-print("hello")
-
 parser = argparse.ArgumentParser()
 
 # обязательные аргумены
